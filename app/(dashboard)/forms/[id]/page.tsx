@@ -1,5 +1,4 @@
 import { GetFormById, GetFormWithSubmissions } from '@/actions/form'
-import FormBuilder from '@/components/FormBuider'
 import FormLinkShare from '@/components/FormLinkShare'
 import VisitButton from '@/components/VisitButton'
 import React, { ReactNode } from 'react'

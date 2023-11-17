@@ -1,4 +1,4 @@
-import React, { useEffect, useTransition } from 'react'
+import React, { useCallback, useEffect, useTransition } from 'react'
 import { Button } from './ui/button'
 import { HiSaveAs } from 'react-icons/hi'
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks'
@@ -14,7 +14,7 @@ function SaveFormButton({ id }: { id: number}) {
   const [loading, startTransition] = useTransition()
   const dispatch = useAppDispatch()
 
-  const updateFormContent = async () => {
+  const updateFormContent = useCallback(async () => {
     try {
       const jsonElement = JSON.stringify(elements);
       await UpdateFormContent(id, jsonElement)
@@ -29,7 +29,7 @@ function SaveFormButton({ id }: { id: number}) {
         variant: "destructive"
       })
     }
-  }
+  }, [elements, id])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,7 +46,7 @@ function SaveFormButton({ id }: { id: number}) {
     return () => {
       clearInterval(interval)
     }
-  }, [drawerisSaved])
+  }, [dispatch, drawerisSaved, updateFormContent])
   return (
     <Button variant={'outline'} className='gap-2' disabled={loading || drawerisSaved} onClick={() => {
       startTransition(updateFormContent)
