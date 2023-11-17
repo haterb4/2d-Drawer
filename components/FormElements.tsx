@@ -1,0 +1,57 @@
+import { CircleFieldFormElement } from "./fields/CircleField";
+import { ElipseFieldFormElement } from "./fields/ElipseField";
+import { RectangleFieldFormElement } from "./fields/RectangleField";
+import { SquaretFieldFormElement } from "./fields/SquareField";
+import { TriangleFieldFormElement } from "./fields/TriangleField";
+
+export type ElementsType = 
+    "SquareField" |
+    "CircleField" |
+    "RectangleField" |
+    "TriangleField" |
+    "ElipseField"
+
+export type SubmitFunction = (key: string, value: string) => void
+
+export type FormElement = {
+    type: ElementsType;
+
+    construct: (id: string) => FormElementInstance;
+
+    designerButtonElement: {
+        icon: React.ElementType;
+        label: string;
+    };
+
+    designComponent: React.FC<{
+        elementInstance: FormElementInstance;
+    }>;
+    formComponent: React.FC<{
+        elementInstance: FormElementInstance;
+        submitValue?: SubmitFunction;
+        isInvalid?: boolean;
+    }>;
+    
+    propertiesComponent: React.FC<{
+        elementInstance: FormElementInstance;
+    }>;
+
+    validate: (formElement: FormElementInstance, currentValue: string) => boolean;
+}
+
+export type FormElementInstance = {
+    id: string;
+    type: ElementsType;
+    extraAttributes?: Record<string, any>;
+}
+
+type FormElementsType = {
+    [key in ElementsType]: FormElement;
+} 
+export const FormElements: FormElementsType = {
+    SquareField: SquaretFieldFormElement,
+    CircleField: CircleFieldFormElement,
+    RectangleField: RectangleFieldFormElement,
+    TriangleField: TriangleFieldFormElement,
+    ElipseField: ElipseFieldFormElement
+}
